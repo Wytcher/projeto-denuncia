@@ -1,0 +1,30 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: projeto-denuncia
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=denuncia
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+app:
+  config:
+    jwt:
+      expiration: 60000000
+    secrets:
+      api-secret: ${API_SECRET:YXV0aC1hcGktc2VjcmV0LWRldi0xMjM0NTY=DHUASU12H3HOPA=sada2hih213hAhAS2IHahiHU2UHuihashuHU2U1HIUhhashas812378HH231U2I}

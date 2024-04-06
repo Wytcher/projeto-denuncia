@@ -30,6 +30,7 @@ public class Report {
     private String protocolNumber;
     private String status;
     private String description;
+    private String response;
     private LocalDate dateOfOccurrence;
     @CreationTimestamp
     private LocalDateTime createdAt;

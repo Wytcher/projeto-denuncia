@@ -1,9 +1,10 @@
 package com.br.projeto.service;
 
 import com.br.projeto.dto.report.ReportRequestDTO;
+import com.br.projeto.dto.report.ReportUpdateRequestDTO;
 import com.br.projeto.entity.Report;
 import com.br.projeto.entity.user.User;
-import com.br.projeto.entity.user.UserPrincipal;
+import com.br.projeto.exception.business.BusinessRuleException;
 import com.br.projeto.exception.business.ObjectNotFoundException;
 import com.br.projeto.repository.ReportRepository;
 import com.br.projeto.repository.user.UserRepository;
@@ -32,7 +33,7 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public Page<Report> getAllReports(Pageable pageable) {
-        return null;
+        return reportRepository.findAll(pageable);
     }
 
     @Override
@@ -43,7 +44,7 @@ public class ReportServiceImpl implements ReportService {
 
     @Override
     public Report getReportById(UUID id) {
-        return null;
+        return reportRepository.findAllById(id).orElseThrow(() -> new ObjectNotFoundException("User not found"));
     }
 
     @Override
@@ -59,6 +60,26 @@ public class ReportServiceImpl implements ReportService {
         reportEntity.setStatus("Em análise");
         reportEntity.setUser(user);
         return this.saveReport(reportEntity);
+    }
+
+    @Override
+    public Report updateReport(Report report) {
+        return reportRepository.save(report);
+    }
+
+    public Report setReportResponse(ReportUpdateRequestDTO reportUpdateRequestDTO, UUID id) {
+        User user = getLoggedUser();
+
+        Report report = this.getReportById(id);
+
+        if (!report.getStatus().equals("Em análise")) {
+            throw new BusinessRuleException("This report is not in the right status to receive a response");
+        }
+
+        report.setResponse(reportUpdateRequestDTO.getResponse());
+        report.setStatus("Analisado");
+        report.setManager(user);
+        return updateReport(report);
     }
 
     private static String generateProtocolNumber(int length) {

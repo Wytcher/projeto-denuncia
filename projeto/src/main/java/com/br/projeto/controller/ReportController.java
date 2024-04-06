@@ -2,6 +2,7 @@ package com.br.projeto.controller;
 
 import com.br.projeto.dto.report.ReportRequestDTO;
 import com.br.projeto.dto.report.ReportResponseDTO;
+import com.br.projeto.dto.report.ReportUpdateRequestDTO;
 import com.br.projeto.entity.Report;
 import com.br.projeto.service.ReportServiceImpl;
 import com.br.projeto.utils.MapperUtils;
@@ -9,7 +10,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/api/v1/reports")
@@ -24,10 +28,18 @@ public class ReportController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<ReportResponseDTO>> createReport(Pageable pageable) {
+    public ResponseEntity<Page<ReportResponseDTO>> getUserReports(Pageable pageable) {
         Page<Report> reports = reportService.getAllReportsByUser(pageable);
         Page<ReportResponseDTO> response = mapperUtils.mapEntityPageIntoDtoPage(reports, ReportResponseDTO.class);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @GetMapping(value = "/all")
+    public ResponseEntity<Page<ReportResponseDTO>> getReports(Pageable pageable) {
+        Page<Report> reports = reportService.getAllReports(pageable);
+        Page<ReportResponseDTO> response = mapperUtils.mapEntityPageIntoDtoPage(reports, ReportResponseDTO.class);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @PostMapping
@@ -35,5 +47,12 @@ public class ReportController {
         Report createdReport = reportService.createReport(reportRequestDTO);
         ReportResponseDTO response = mapperUtils.map(createdReport, ReportResponseDTO.class);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @PutMapping("/{id}")
+    public ResponseEntity<ReportResponseDTO> setReportResponse(@RequestBody ReportUpdateRequestDTO reportUpdateRequestDTO, @PathVariable UUID id) {
+        Report createdReport = reportService.setReportResponse(reportUpdateRequestDTO, id);
+        ReportResponseDTO response = mapperUtils.map(createdReport, ReportResponseDTO.class);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

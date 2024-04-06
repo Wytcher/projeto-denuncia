@@ -1,8 +1,6 @@
 package com.br.projeto.dto.report;
 
 import com.br.projeto.dto.user.ReportUserDTO;
-import com.br.projeto.dto.user.UserResponseDTO;
-import com.br.projeto.entity.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,8 +21,10 @@ public class ReportResponseDTO implements Serializable {
     private String protocolNumber;
     private String status;
     private String description;
+    private String response;
     private LocalDate dateOfOccurrence;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private ReportUserDTO user;
+    private ReportUserDTO manager;
 }

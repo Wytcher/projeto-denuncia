@@ -15,4 +15,6 @@ public interface ReportService {
     Report getReportById(UUID id);
 
     Report saveReport(Report report);
+
+    Report updateReport(Report report);
 }

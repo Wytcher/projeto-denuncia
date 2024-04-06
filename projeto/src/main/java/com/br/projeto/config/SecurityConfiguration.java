@@ -22,7 +22,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity
+@EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration {
     @Bean
     public WebMvcConfigurer corsConfigurer() {
@@ -37,6 +37,7 @@ public class SecurityConfiguration {
         };
     }
     private static final String[] AUTH_WHITELIST = {
+            "/api/v1/users/**",
             "/api/v1/auth/login",
             "/swagger-resources",
             "/swagger-resources/**",

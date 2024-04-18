@@ -16,7 +16,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
-import java.util.UUID;
 
 @Service
 public class ReportServiceImpl implements ReportService {
@@ -43,8 +42,12 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public Report getReportById(UUID id) {
-        return reportRepository.findAllById(id).orElseThrow(() -> new ObjectNotFoundException("User not found"));
+    public Report getReportById(Long id) {
+        return reportRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Report not found"));
+    }
+
+    public Report getReportByProtocolNumber(String protocolNumber) {
+        return reportRepository.getReportByProtocolNumber(protocolNumber).orElseThrow(() -> new ObjectNotFoundException("Report not found"));
     }
 
     @Override
@@ -67,7 +70,7 @@ public class ReportServiceImpl implements ReportService {
         return reportRepository.save(report);
     }
 
-    public Report setReportResponse(ReportUpdateRequestDTO reportUpdateRequestDTO, UUID id) {
+    public Report setReportResponse(ReportUpdateRequestDTO reportUpdateRequestDTO, Long id) {
         User user = getLoggedUser();
 
         Report report = this.getReportById(id);

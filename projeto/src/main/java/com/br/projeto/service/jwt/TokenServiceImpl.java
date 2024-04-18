@@ -42,7 +42,7 @@ public class TokenServiceImpl implements TokenService {
         Date exp = new Date(now.getTime() + Long.parseLong(expiration));
 
         Claims claims = Jwts.claims().setSubject(userPrincipal.getUsername());
-        claims.put("userId", user.getId());
+        claims.put("userId", user.getUserId());
         claims.put("email", user.getEmail());
         claims.put("roles", user.getRoles());
 

@@ -17,7 +17,6 @@ import java.util.UUID;
 @NoArgsConstructor
 public class ReportResponseDTO implements Serializable {
 
-    private UUID id;
     private String protocolNumber;
     private String status;
     private String description;

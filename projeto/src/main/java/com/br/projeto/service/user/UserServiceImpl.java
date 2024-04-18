@@ -19,9 +19,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findUserById(UUID id) {
+    public User findUserById(Long id) {
         return userRepository
-                .findUserById(id)
+                .findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException(String.format("User for the given id %s was not found", id)));
     }
 

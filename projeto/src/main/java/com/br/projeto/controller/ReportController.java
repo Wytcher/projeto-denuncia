@@ -42,6 +42,20 @@ public class ReportController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<ReportResponseDTO> getReport(@PathVariable Long id) {
+        Report reports = reportService.getReportById(id);
+        ReportResponseDTO response = mapperUtils.map(reports, ReportResponseDTO.class);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @GetMapping(value = "/protocol/{protocolNumber}")
+    public ResponseEntity<ReportResponseDTO> getReport(@PathVariable String protocolNumber) {
+        Report reports = reportService.getReportByProtocolNumber(protocolNumber);
+        ReportResponseDTO response = mapperUtils.map(reports, ReportResponseDTO.class);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
     @PostMapping
     public ResponseEntity<ReportResponseDTO> createReport(@RequestBody ReportRequestDTO reportRequestDTO) {
         Report createdReport = reportService.createReport(reportRequestDTO);
@@ -50,7 +64,7 @@ public class ReportController {
     }
     @PreAuthorize("hasAnyAuthority('ADMIN')")
     @PutMapping("/{id}")
-    public ResponseEntity<ReportResponseDTO> setReportResponse(@RequestBody ReportUpdateRequestDTO reportUpdateRequestDTO, @PathVariable UUID id) {
+    public ResponseEntity<ReportResponseDTO> setReportResponse(@RequestBody ReportUpdateRequestDTO reportUpdateRequestDTO, @PathVariable Long id) {
         Report createdReport = reportService.setReportResponse(reportUpdateRequestDTO, id);
         ReportResponseDTO response = mapperUtils.map(createdReport, ReportResponseDTO.class);
         return ResponseEntity.status(HttpStatus.OK).body(response);

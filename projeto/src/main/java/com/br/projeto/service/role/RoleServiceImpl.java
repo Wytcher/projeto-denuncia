@@ -4,8 +4,11 @@ import com.br.projeto.entity.role.Role;
 import com.br.projeto.entity.role.RoleName;
 import com.br.projeto.exception.business.ObjectNotFoundException;
 import com.br.projeto.repository.role.RoleRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -19,9 +22,9 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public Set<Role> findRoleById(UUID id) {
+    public Set<Role> findRoleById(Long id) {
         return roleRepository
-                .findRoleById(id)
+                .findRoleByRoleId(id)
                 .orElseThrow(() -> new ObjectNotFoundException(String.format("Role for the given id %s not found", id)));
     }
 
@@ -30,5 +33,9 @@ public class RoleServiceImpl implements RoleService {
         return roleRepository
                 .findAllByRoleName(roleName)
                 .orElseThrow(() -> new ObjectNotFoundException(String.format("Role for the given name %s not found", roleName)));
+    }
+
+    public List<Role> getRoles(Pageable pageable) {
+        return roleRepository.findAll();
     }
 }

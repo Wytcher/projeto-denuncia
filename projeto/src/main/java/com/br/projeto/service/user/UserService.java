@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public interface UserService {
 
-    User findUserById(UUID id);
+    User findUserById(Long id);
 
     User findUserByEmail(String email);
 

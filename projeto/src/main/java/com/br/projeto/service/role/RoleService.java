@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public interface RoleService {
 
-    Set<Role> findRoleById(UUID id);
+    Set<Role> findRoleById(Long id);
 
     Set<Role> findRoleByName(RoleName roleName);
 

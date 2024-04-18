@@ -37,6 +37,7 @@ public class SecurityConfiguration {
         };
     }
     private static final String[] AUTH_WHITELIST = {
+            "/api/v1/roles/**",
             "/api/v1/users/**",
             "/api/v1/auth/login",
             "/swagger-resources",

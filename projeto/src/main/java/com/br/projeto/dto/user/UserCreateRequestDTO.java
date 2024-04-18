@@ -31,5 +31,5 @@ public class UserCreateRequestDTO implements Serializable {
     private String password;
 
     @NotNull(message = "{required.roleId}")
-    private UUID roleId;
+    private Long roleId;
 }
